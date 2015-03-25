@@ -7,7 +7,7 @@ import (
 
 type Node struct {
 	Coordinate *Coordinate
-	Context    NodeContext
+	Context    interface{}
 	axis       int
 	parent     *Node
 	leftLeaf   *Node

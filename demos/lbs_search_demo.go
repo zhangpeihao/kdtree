@@ -39,6 +39,7 @@ func main() {
 			Coordinate: &Coordinate{
 				Values: []float64{user.x, user.y},
 			},
+			Context: user,
 		})
 	}
 	cost := float64(time.Now().Sub(startAt))
