@@ -45,7 +45,7 @@ func main() {
 	cost := float64(time.Now().Sub(startAt))
 	fmt.Printf("Load %d nodes cost %.3fs\n", *number, cost/1000000000.0)
 	startAt = time.Now()
-	if err, tree = NewTree(nodes, 2); err != nil {
+	if tree, err = NewTree(nodes, 2); err != nil {
 		fmt.Printf("NewTree err: %s\n", err.Error())
 		return
 	}

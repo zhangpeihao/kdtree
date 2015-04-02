@@ -20,7 +20,7 @@ func TestCreateTree(t *testing.T) {
 			Values: []float64{2.0, 3.0},
 		},
 	})
-	err, tree = NewTree(nodes, 2)
+	tree, err = NewTree(nodes, 2)
 	if err != nil {
 		t.Errorf("NewTree(nil), err: %s", err.Error())
 	}

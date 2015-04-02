@@ -11,9 +11,9 @@ type Tree struct {
 	dimensions int
 }
 
-func NewTree(nodes []*Node, dimensions int) (err error, tree *Tree) {
+func NewTree(nodes []*Node, dimensions int) (tree *Tree, err error) {
 	var root *Node
-	err, root = createTree(nodes, dimensions, 0, nil)
+	root, err = createTree(nodes, dimensions, 0, nil)
 	if err != nil {
 		return
 	}
@@ -37,14 +37,14 @@ func (tree *Tree) Search(center *Coordinate, radius float64, walker WalkFunc) (e
 	}
 }
 
-func createTree(nodes []*Node, dimensions, depth int, parent *Node) (err error, root *Node) {
+func createTree(nodes []*Node, dimensions, depth int, parent *Node) (root *Node, err error) {
 	nodes_len := len(nodes)
 	switch nodes_len {
 	case 0:
 		root = nil
 	case 1:
 		if dimensions != nodes[0].Coordinate.Dimensions() {
-			return ErrDimensionUnmatch, nil
+			return nil, ErrDimensionUnmatch
 		}
 		root = nodes[0]
 		root.axis = depth % dimensions
@@ -53,7 +53,7 @@ func createTree(nodes []*Node, dimensions, depth int, parent *Node) (err error, 
 		root.rightLeaf = nil
 	default:
 		if dimensions != nodes[0].Coordinate.Dimensions() {
-			return ErrDimensionUnmatch, nil
+			return nil, ErrDimensionUnmatch
 		}
 		median := (nodes_len / 2)
 
@@ -67,13 +67,13 @@ func createTree(nodes []*Node, dimensions, depth int, parent *Node) (err error, 
 
 		root.axis = nodeList.Axis
 		root.parent = parent
-		err, root.leftLeaf = createTree(nodeList.Nodes[0:median], dimensions, depth+1, root)
+		root.leftLeaf, err = createTree(nodeList.Nodes[0:median], dimensions, depth+1, root)
 		if err != nil {
-			return err, nil
+			return nil, err
 		}
-		err, root.rightLeaf = createTree(nodeList.Nodes[median+1:], dimensions, depth+1, root)
+		root.rightLeaf, err = createTree(nodeList.Nodes[median+1:], dimensions, depth+1, root)
 		if err != nil {
-			return err, nil
+			return nil, err
 		}
 	}
 
